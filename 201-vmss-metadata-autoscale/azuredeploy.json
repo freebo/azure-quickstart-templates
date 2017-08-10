@@ -2,9 +2,16 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "vmImage": {
+      "type": "string",
+      "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/images-rg/providers/Microsoft.Compute/images/Metadata-ub16v092",
+      "metadata": {
+        "description": "Image of the VM."
+      }
+    },
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_A1",
+      "defaultValue": "Standard_A2",
       "metadata": {
         "description": "Size of VMs in the VM Scale Set."
       }
@@ -72,7 +79,7 @@
       "sku": "[parameters('ubuntuOSVersion')]",
       "version": "latest"
     },
-    "imageReference": "[variables('osType')]",
+    "imageReference": "[parameters('vmImage')]",
     "computeApiVersion": "2017-03-30",
     "networkApiVersion": "2017-04-01",
     "storageApiVersion": "2015-06-15",
@@ -136,6 +143,25 @@
             "name": "[variables('bePoolName')]"
           }
         ],
+          "loadBalancingRules": [
+                    {
+                        "name": "vmsshttprule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[variables('frontEndIPConfigID')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "Default",
+                            "backendAddressPool": {
+                                "id": "[variables('bePoolName')]"
+                            }
+                        }
+                    }
+                ],
         "inboundNatPools": [
           {
             "name": "[variables('natPoolName')]",
