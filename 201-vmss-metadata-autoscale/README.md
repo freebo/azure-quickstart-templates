@@ -1,4 +1,4 @@
-### Autoscale a Linux VM Scale Set with website ###
+### Autoscale a Linux VM Scale Set ###
 
 The following template deploys a Linux VM Scale Set integrated with Azure autoscale
 
