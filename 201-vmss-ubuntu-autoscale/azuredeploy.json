@@ -143,6 +143,25 @@
             "name": "[variables('bePoolName')]"
           }
         ],
+          "loadBalancingRules": [
+                    {
+                        "name": "vmsshttprule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[variables('frontEndIPConfigID')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "Default",
+                            "backendAddressPool": {
+                                "id": "[variables('bePoolName')]"
+                            }
+                        }
+                    }
+                ],
         "inboundNatPools": [
           {
             "name": "[variables('natPoolName')]",
